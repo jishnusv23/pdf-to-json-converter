@@ -2,6 +2,7 @@ import express, { Application, Request, Response } from "express";
 import { config } from "dotenv";
 import morgan from "morgan";
 import path from "path";
+import router from "./router";
 config();
 const app: Application = express();
 import cors from "cors";
@@ -24,6 +25,7 @@ app.get("/test", (res: Response, req: Request) => {
   console.log("working the port");
   res.status(200).json({ success: true, message: "appicall working " });
 });
+app.use(router)
 
 app.listen(PORT || 3001, () => {
   console.log(`the Service will runing on the ${PORT}`);
