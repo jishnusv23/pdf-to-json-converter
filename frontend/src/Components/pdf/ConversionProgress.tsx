@@ -6,8 +6,8 @@ interface ConversionProgressProps {
 const ConversionProgress: React.FC<ConversionProgressProps> = ({
   isProcessing,
 }) => {
-  //lottie.host/7acbddb8-b16f-4bbc-8c7e-2e0a4b038cbf/SquHGSDo06.json
-  https: return (
+  //https://lottie.host/7acbddb8-b16f-4bbc-8c7e-2e0a4b038cbf/SquHGSDo06.json
+   return (
     <div className="w-full">
       <div>
         {isProcessing?(

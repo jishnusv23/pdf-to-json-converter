@@ -8,8 +8,7 @@ import LandingPage from "./page/LandingPage";
 function App() {
   return (
     <>
-      {/* <h1>Hello</h1>
-       */}
+      
       <LandingPage />
     </>
   );

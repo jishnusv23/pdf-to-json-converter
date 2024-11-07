@@ -18,7 +18,7 @@ class pdfController {
             var _a;
             try {
                 if (!req.file) {
-                    res.status(400).json({ error: "No file uploaded" });
+                    res.status(400).json({ succss: false, error: "No file uploaded" });
                 }
                 console.log(req.file, "________________");
                 const pdfText = yield (0, parsePdf_1.extractPdfText)((_a = req.file) === null || _a === void 0 ? void 0 : _a.path);
@@ -31,10 +31,20 @@ class pdfController {
                 //   "🚀 ~ file: pdfController.ts:14 ~ pdfController ~ PdfReader ~ jsonData:",
                 //   jsonData
                 // );
+                if (!jsonData) {
+                    res.status(500).json({
+                        success: false,
+                        error: "Failed to process PDF text into JSON data",
+                    });
+                }
                 res.status(200).json({ success: true, data: jsonData });
             }
             catch (error) {
-                next(error);
+                console.error('Error during the PDF processing tiem', error);
+                res.status(500).json({
+                    success: false,
+                    error: error.message || "An error occurred while processing the PDF.",
+                });
             }
         });
     }
