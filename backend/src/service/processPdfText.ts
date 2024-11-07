@@ -1,33 +1,36 @@
-
-export function processPdfText(pdfText: string): any {
-  const paragraphs = pdfText.split("\n").filter((line) => line.trim() !== "");
-
-  const sections = paragraphs.reduce((acc, paragraph, index) => {
-    const sectionMatch = paragraph.match(/^\d+\./);
-    if (sectionMatch) {
-      const sectionNumber = parseInt(sectionMatch[0].replace(".", ""));
-      acc.push({
-        sectionNumber,
-        content: [paragraph],
-      });
-    } else if (acc.length > 0) {
-      // If it's not a new section, append the paragraph to the last section
-      acc[acc.length - 1].content.push(paragraph);
-    } else {
-      acc.push({
-        sectionNumber: 1,
-        content:[paragraph]
-      });
-    }
-    return acc;
-  }, [] as { sectionNumber: number; content: string[] }[]);
-
+export function processPdfText(pdfData: any): any {
+  console.log(
+    "🚀 ~ file: processPdfText.ts:3 ~ processPdfText ~ pdfText:",
+    pdfData
+  );
   const jsonData = {
-    sections:
-      sections.length > 0
-        ? sections
-        : [{ sectionNumber: 1, content: paragraphs }],
+    filename: pdfData.filename,
+    meta: {
+      info: pdfData.meta?.info,
+      metadata: pdfData.meta?.metadata,
+    },
+    pages: pdfData.pages.map((page: any) => ({
+      pageInfo: {
+        num: page.pageInfo.num,
+        scale: page.pageInfo.scale,
+        rotation: page.pageInfo.rotation,
+        width: page.pageInfo.width,
+        height: page.pageInfo.height,
+      },
+      links: page.links,
+      content: page.content.map((contentItem: any) => ({
+        x: contentItem.x,
+        y: contentItem.y,
+        str: contentItem.str,
+        dir: contentItem.dir,
+        width: contentItem.width,
+        height: contentItem.height,
+        fontName: contentItem.fontName,
+      })),
+    })),
+    pdfInfo: pdfData.pdfInfo,
   };
 
   return jsonData;
 }
+
