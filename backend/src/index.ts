@@ -16,16 +16,17 @@ const corsOPtions = {
 };
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "public")));
+app.use("/public", express.static(path.join(__dirname, "public")));
 app.use(morgan("dev"));
 app.use(cors(corsOPtions));
 
 //checking postman
-app.get("/test", (res: Response, req: Request) => {
-  console.log("working the port");
-  res.status(200).json({ success: true, message: "appicall working " });
+app.get("/test", (req: Request, res: Response) => {
+  res
+    .status(201)
+    .json({ success: true, message: " working " });
 });
-app.use(router)
+app.use('/Pdf',router)
 
 app.listen(PORT || 3001, () => {
   console.log(`the Service will runing on the ${PORT}`);

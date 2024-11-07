@@ -1,16 +1,36 @@
-import React, { ChangeEvent, useRef } from "react";
+import React, { ChangeEvent, useRef, useState } from "react";
 
 import { Player } from "@lottiefiles/react-lottie-player";
+import { CLIENT_API } from "../../utils/Axios";
 const FileUpload: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const [jsonData,setJsonData]=useState<string[]>([])
   const handlClick = () => {
     if (inputRef.current) {
       inputRef.current.click();
     }
   };
-  const handlePdfFile = (event: ChangeEvent<HTMLInputElement>) => {
+  const handlePdfFile =async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
     console.log("🚀 ~ file: FileUpload.tsx:13 ~ handlePdfFile ~ file:", file);
+    if (file) {
+      const formData = new FormData();
+      formData.append("file", file);
+      try {
+        const response = await CLIENT_API.post("/pdf", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        console.log(
+          "🚀 ~ file: FileUpload.tsx:24 ~ handlePdfFile ~ response:",
+          response
+        );
+      } catch (error: any) {
+        console.error('something wrong',error);
+        
+      }
+    }
   };
 
   return (
