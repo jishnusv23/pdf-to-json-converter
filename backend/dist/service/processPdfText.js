@@ -1,11 +1,19 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.processPdfText = processPdfText;
+const path_1 = __importDefault(require("path"));
 function processPdfText(pdfData) {
     var _a, _b;
-    console.log("🚀 ~ file: processPdfText.ts:3 ~ processPdfText ~ pdfText:", pdfData);
+    // console.log(
+    //   "🚀 ~ file: processPdfText.ts:3 ~ processPdfText ~ pdfText:",
+    //   pdfData
+    // );
+    const fileName = path_1.default.basename(pdfData.filename);
     const jsonData = {
-        filename: pdfData.filename,
+        filename: fileName,
         meta: {
             info: (_a = pdfData.meta) === null || _a === void 0 ? void 0 : _a.info,
             metadata: (_b = pdfData.meta) === null || _b === void 0 ? void 0 : _b.metadata,
@@ -33,30 +41,3 @@ function processPdfText(pdfData) {
     };
     return jsonData;
 }
-// const paragraphs = pdfText.split("\n").filter((line) => line.trim() !== "");
-// const sections = paragraphs.reduce((acc, paragraph, index) => {
-//   const sectionMatch = paragraph.match(/^\d+\./);
-//   if (sectionMatch) {
-//     const sectionNumber = parseInt(sectionMatch[0].replace(".", ""));
-//     acc.push({
-//       sectionNumber,
-//       content: [paragraph],
-//     });
-//   } else if (acc.length > 0) {
-//     // If it's not a new section, append the paragraph to the last section
-//     acc[acc.length - 1].content.push(paragraph);
-//   } else {
-//     acc.push({
-//       sectionNumber: 1,
-//       content:[paragraph]
-//     });
-//   }
-//   return acc;
-// }, [] as { sectionNumber: number; content: string[] }[]);
-// const jsonData = {
-//   sections:
-//     sections.length > 0
-//       ? sections
-//       : [{ sectionNumber: 1, content: paragraphs }],
-// };
-// return jsonData;

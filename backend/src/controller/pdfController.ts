@@ -11,14 +11,14 @@ export class pdfController {
       console.log(req.file, "________________");
        const pdfText = await extractPdfText(req.file?.path as string); 
        const jsonData = processPdfText(pdfText);
-      console.log(
-        "🚀 ~ file: pdfController.ts:12 ~ pdfController ~ PdfReader ~ pdfextractPdfTextText:",
-        extractPdfText
-      );
-      console.log(
-        "🚀 ~ file: pdfController.ts:14 ~ pdfController ~ PdfReader ~ jsonData:",
-        jsonData
-      );
+      // console.log(
+      //   "🚀 ~ file: pdfController.ts:12 ~ pdfController ~ PdfReader ~ pdfextractPdfTextText:",
+      //   extractPdfText
+      // );
+      // console.log(
+      //   "🚀 ~ file: pdfController.ts:14 ~ pdfController ~ PdfReader ~ jsonData:",
+      //   jsonData
+      // );
       res.status(200).json({success:true,data:jsonData})
     } catch (error: any) {
       next(error);

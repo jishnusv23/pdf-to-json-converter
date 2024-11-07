@@ -1,10 +1,12 @@
+import path from "path";
 export function processPdfText(pdfData: any): any {
-  console.log(
-    "🚀 ~ file: processPdfText.ts:3 ~ processPdfText ~ pdfText:",
-    pdfData
-  );
+  // console.log(
+  //   "🚀 ~ file: processPdfText.ts:3 ~ processPdfText ~ pdfText:",
+  //   pdfData
+  // );
+  const fileName = path.basename(pdfData.filename as string);
   const jsonData = {
-    filename: pdfData.filename,
+    filename: fileName,
     meta: {
       info: pdfData.meta?.info,
       metadata: pdfData.meta?.metadata,
@@ -33,4 +35,3 @@ export function processPdfText(pdfData: any): any {
 
   return jsonData;
 }
-
