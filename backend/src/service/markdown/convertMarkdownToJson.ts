@@ -1,4 +1,5 @@
 import fs from "fs/promises";
+import path from 'path'
 
 export async function convertMarkdownToJson(filePath: string) {
   try {
@@ -10,9 +11,9 @@ export async function convertMarkdownToJson(filePath: string) {
     const lines = markdownContent.split("\n");
     // console.log("🚀 ~ file: convertMarkdownToJson.ts:11 ~ convertMarkdownToJson ~ lines:", lines)
 
-   
+    const filename=path.basename(filePath as string)
     const jsonOutput: any = {
-      filePath: filePath,
+      filePath: filename,
       content: {},
     };
 
