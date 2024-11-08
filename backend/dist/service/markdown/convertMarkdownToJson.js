@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.convertMarkdownToJson = convertMarkdownToJson;
 const promises_1 = __importDefault(require("fs/promises"));
+const path_1 = __importDefault(require("path"));
 function convertMarkdownToJson(filePath) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -21,8 +22,9 @@ function convertMarkdownToJson(filePath) {
             // console.log("🚀 ~ file: convertMarkdownToJson.ts:7 ~ convertMarkdownToJson ~ markdownContent:", markdownContent)
             const lines = markdownContent.split("\n");
             // console.log("🚀 ~ file: convertMarkdownToJson.ts:11 ~ convertMarkdownToJson ~ lines:", lines)
+            const filename = path_1.default.basename(filePath);
             const jsonOutput = {
-                filePath: filePath,
+                filePath: filename,
                 content: {},
             };
             let currentTag = "";
