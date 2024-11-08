@@ -8,14 +8,13 @@ COPY package*.json ./
 
 RUN npm install
 
-# Copy the application source code
 COPY . .
+
+
+RUN mkdir -p ./public
 
 # Run the build process to generate the `dist` folder
 RUN npm run build
-
-# Copy the `public` folder from the `dist` directory to the desired location
-RUN mkdir -p ./public && cp -r dist/config/public ./public
 
 # Expose the application port
 EXPOSE 3001
