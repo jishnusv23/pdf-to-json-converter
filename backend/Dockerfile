@@ -7,7 +7,7 @@ COPY package*.json ./
 RUN npm install
 
 
-COPY public ./public
+COPY dist/config/public ./public
 
 COPY . .
 
