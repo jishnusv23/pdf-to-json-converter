@@ -10,32 +10,43 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.pdfController = void 0;
-const parsePdf_1 = require("../service/parsePdf");
-const processPdfText_1 = require("../service/processPdfText");
+const parsePdf_1 = require("../service/pdf/parsePdf");
+const processPdfText_1 = require("../service/pdf/processPdfText");
+const extractDocxText_1 = require("../service/doc/extractDocxText");
+const convertMarkdownToJson_1 = require("../service/markdown/convertMarkdownToJson");
 class pdfController {
     PdfReader(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            var _a;
+            var _a, _b, _c;
             try {
                 if (!req.file) {
                     res.status(400).json({ succss: false, error: "No file uploaded" });
                 }
-                console.log(req.file, "________________");
-                const pdfText = yield (0, parsePdf_1.extractPdfText)((_a = req.file) === null || _a === void 0 ? void 0 : _a.path);
-                const jsonData = (0, processPdfText_1.processPdfText)(pdfText);
-                // console.log(
-                //   "🚀 ~ file: pdfController.ts:12 ~ pdfController ~ PdfReader ~ pdfextractPdfTextText:",
-                //   extractPdfText
-                // );
-                // console.log(
-                //   "🚀 ~ file: pdfController.ts:14 ~ pdfController ~ PdfReader ~ jsonData:",
-                //   jsonData
-                // );
+                let jsonData;
+                // console.log(req.file, "________________");
+                const filepath = (_a = req.file) === null || _a === void 0 ? void 0 : _a.path;
+                const fileExtension = (_b = filepath.split(".").pop()) === null || _b === void 0 ? void 0 : _b.toLowerCase();
+                if (fileExtension === "pdf") {
+                    const pdfText = yield (0, parsePdf_1.extractPdfText)(filepath);
+                    jsonData = (0, processPdfText_1.processPdfText)(pdfText);
+                }
+                else if (fileExtension === "doc" || fileExtension === "docx") {
+                    jsonData = yield (0, extractDocxText_1.extractDocxText)(filepath);
+                    console.log("🚀 ~ file: pdfController.ts:24 ~ pdfController ~ PdfReader ~ jsonData:", jsonData);
+                }
+                else if (fileExtension === "md") {
+                    jsonData = yield (0, convertMarkdownToJson_1.convertMarkdownToJson)((_c = req.file) === null || _c === void 0 ? void 0 : _c.path);
+                }
+                else {
+                    throw new Error("Unspported file type");
+                }
+                console.log("🚀 ~ file: pdfController.ts:15 ~ pdfController ~ PdfReader ~ fileExtension:", fileExtension);
                 if (!jsonData) {
                     res.status(500).json({
                         success: false,
                         error: "Failed to process PDF text into JSON data",
                     });
+                    //  const pdfText = await  extractDocumentText(req.file?.path as string)
                 }
                 res.status(200).json({ success: true, data: jsonData });
             }

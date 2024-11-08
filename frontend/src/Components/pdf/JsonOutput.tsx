@@ -3,10 +3,14 @@ interface JsonOutputProps {
   jsonData: any[];
 }
 const JsonOutput: React.FC<JsonOutputProps> = ({ jsonData }) => {
-//   console.log("🚀 ~ file: JsonOutput.tsx:6 ~ jsonData:", jsonData);
+  
+  const formattedJson = JSON.stringify(jsonData, null, 2).replace(
+    /\n/g,
+    "<br />"
+  );
   return (
     <>
-      {/* <button className="">Copy</button> */}
+  
       <div className="      ">
         <div>
           {jsonData.length === 0 ? (
@@ -15,9 +19,10 @@ const JsonOutput: React.FC<JsonOutputProps> = ({ jsonData }) => {
             </div>
           ) : (
             <div className="flex ">
-              <pre className="text-red-500">
-                {JSON.stringify(jsonData, null, 2)}
-              </pre>
+              <code
+                className="text-red-500"
+                dangerouslySetInnerHTML={{ __html: formattedJson }}
+              />
             </div>
           )}
         </div>

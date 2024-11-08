@@ -24,15 +24,10 @@ function processPdfText(pdfData) {
                 height: page.pageInfo.height,
             },
             links: page.links,
-            content: page.content.map((contentItem) => ({
-                x: contentItem.x,
-                y: contentItem.y,
-                str: contentItem.str,
-                dir: contentItem.dir,
-                width: contentItem.width,
-                height: contentItem.height,
-                fontName: contentItem.fontName,
-            })),
+            content: page.content
+                .map((contentItem) => contentItem.str)
+                .join(" ")
+                .replace(/\.\s*/g, ".\n"),
         })),
         pdfInfo: pdfData.pdfInfo,
     };

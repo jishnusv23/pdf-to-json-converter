@@ -39,10 +39,7 @@ const FileUpload: React.FC = () => {
             "Content-Type": "multipart/form-data",
           },
         });
-        // console.log(
-        //   "🚀 ~ file: FileUpload.tsx:24 ~ handlePdfFile ~ response:",
-        //   response
-        // );
+      
         if (response.data.success) {
           console.log("success the result");
           setShowResult(true);
@@ -54,6 +51,7 @@ const FileUpload: React.FC = () => {
         console.error("something wrong", error);
       } finally {
         setIsProcessing(false);
+        setIsDisabled(false);
       }
     }
     if (inputRef.current) {
@@ -101,7 +99,7 @@ const FileUpload: React.FC = () => {
           <input
             type="file"
             ref={inputRef}
-            accept="application/pdf"
+            accept=".pdf, application/pdf, .doc, .docx, application/msword, text/markdown, .md"
             className="hidden"
             style={{ display: "none" }}
             disabled={isDisabled || isProccessing}
@@ -128,7 +126,7 @@ const FileUpload: React.FC = () => {
               </button>
             </div>
 
-            <div className="h-[calc(90vh-2.5rem)] border border-black flex justify-center  overflow-y-auto scrollbar-hide ">
+            <div className="h-[calc(100vh-2.5rem)] ml-4 mr-4 px-4 pl-5 border border-black flex justify-center overflow-y-auto scrollbar-hide">
               <JsonOutput jsonData={jsonData} />
             </div>
           </>
